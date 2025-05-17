@@ -1,0 +1,238 @@
+body {
+	margin: 0;
+	font-family: "Segoe UI", sans-serif;
+	background-color: #0e1a2b;
+	color: #fff;
+}
+
+.crypto-pulse header {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+	background-color: #15202b;
+	border-radius: 8px;
+	gap: 1rem;
+}
+
+.header-left {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	flex: 1 1 auto;
+	min-width: 200px;
+}
+
+.header-left h1 {
+	margin: 0;
+	font-size: 1.5rem;
+	white-space: nowrap;
+}
+
+.status {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	font-size: 1rem;
+	color: #1db954;
+}
+
+.status.disconnected {
+	color: #f44336;
+}
+
+.status .dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background-color: currentColor;
+}
+
+.header-right {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	align-items: center;
+	justify-content: flex-end;
+	flex: 1 1 auto;
+	min-width: 200px;
+}
+
+.display-label {
+	color: white;
+	font-weight: 600;
+}
+
+.display-select-wrapper select {
+	padding: 0.3rem 0.6rem;
+	border-radius: 4px;
+	border: 1px solid #1db954;
+	background-color: #15202b;
+	color: white;
+	cursor: pointer;
+}
+
+button.connect,
+button.disconnect,
+button.toggle-view {
+	padding: 0.4rem 0.8rem;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	color: white;
+	font-weight: 600;
+	transition: background-color 0.3s ease;
+}
+
+button.connect {
+	background-color: #1db954;
+}
+
+button.disconnect {
+	background-color: #b33a3a;
+}
+
+button.toggle-view {
+	background-color: #007bff;
+}
+
+@media (max-width: 768px) {
+	.crypto-pulse header {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.header-left,
+	.header-right {
+		width: 100%;
+		justify-content: space-between;
+	}
+
+	.header-right {
+		gap: 0.5rem;
+	}
+
+	.display-label {
+		display: block;
+		margin-bottom: 0.25rem;
+	}
+}
+
+.card-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 1rem;
+	margin: 2rem;
+}
+
+.card {
+	background-color: #1c2a3a;
+	padding: 1rem;
+	border-radius: 0.5rem;
+	position: relative;
+	transition: background 0.3s;
+}
+
+.card.positive {
+	border-left: 4px solid #00ff99;
+}
+
+.card.negative {
+	border-left: 4px solid #ff4d4f;
+}
+
+.card-header {
+	display: flex;
+	justify-content: space-between;
+	font-weight: bold;
+	font-size: 1.1rem;
+	margin-bottom: 0.5rem;
+}
+
+.card-body {
+	display: flex;
+	justify-content: space-between;
+	font-size: 0.85rem;
+	margin-bottom: 0.5rem;
+}
+
+.change.positive {
+	color: #00ff99;
+}
+
+.change.negative {
+	color: #ff4d4f;
+}
+
+.mini-graph {
+	margin-top: 0.5rem;
+}
+
+.crypto-table {
+	width: 100%;
+	border-collapse: collapse;
+	background-color: #1c2a3a;
+	border-radius: 0.5rem;
+	overflow: hidden;
+}
+
+.crypto-table th,
+.crypto-table td {
+	padding: 0.75rem 1rem;
+	text-align: left;
+}
+
+.crypto-table th {
+	background-color: #27364f;
+}
+
+.crypto-table tr:nth-child(even) {
+	background-color: #223144;
+}
+
+.crypto-table tr.positive td {
+	color: #00ff99;
+}
+
+.crypto-table tr.negative td {
+	color: #ff4d4f;
+}
+
+.display-select {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	background-color: #27364f;
+	color: #fff;
+	font-weight: 600;
+	padding: 0.4rem 1.5rem 0.4rem 0.8rem;
+	margin: 0.75rem;
+	border: 2px solid #00ff99;
+	border-radius: 0.4rem;
+	cursor: pointer;
+	font-size: 1rem;
+	position: relative;
+	transition: background-color 0.3s ease, border-color 0.3s ease;
+	min-width: 80px;
+}
+
+.display-select::after {
+	content: "";
+	position: absolute;
+	pointer-events: none;
+	top: 50%;
+	right: 0.6rem;
+	width: 0.6rem;
+	height: 0.6rem;
+	border-style: solid;
+	border-width: 0.15em 0.15em 0 0;
+	border-color: #00ff99;
+	transform: translateY(-50%) rotate(45deg);
+	z-index: 1;
+}
+
+.display-select-wrapper {
+	position: relative;
+	display: inline-block;
+}
