@@ -14,8 +14,10 @@ const CryptoLoom: React.FC = () => {
 	const [viewMode, setViewMode] = useState<"card" | "table">("card");
 	const [isConnected, setIsConnected] = useState<boolean>(false);
 	const [displayCount, setDisplayCount] = useState<number>(10);
+	const [filter, setFilter] = useState<"all" | "profits" | "loss">("all");
 
 	const ws = useRef<WebSocket | null>(null);
+
 	const connect = () => {
 		if (ws.current) return;
 		ws.current = new WebSocket(
@@ -35,9 +37,6 @@ const CryptoLoom: React.FC = () => {
 
 				data.forEach((item: any) => {
 					const symbol = item.s.toLowerCase();
-					// Remove or modify this line to track all symbols:
-					// if (!trackedSymbols.includes(symbol)) return;
-
 					const price = parseFloat(item.c);
 					const volume = parseFloat(item.v);
 					const open = parseFloat(item.o);
@@ -79,14 +78,24 @@ const CryptoLoom: React.FC = () => {
 		isConnected ? disconnect() : connect();
 	};
 
-	// Helper to get top tickers sorted by latest price descending
 	const getTopTickers = () => {
 		const entries = Object.entries(tickers);
-		const sorted = entries.sort(([, dataA], [, dataB]) => {
+
+		const filtered = entries.filter(([, data]) => {
+			const latest = data[data.length - 1];
+			if (!latest) return false;
+
+			if (filter === "profits") return latest.change > 0;
+			if (filter === "loss") return latest.change < 0;
+			return true;
+		});
+
+		const sorted = filtered.sort(([, dataA], [, dataB]) => {
 			const latestA = dataA[dataA.length - 1];
 			const latestB = dataB[dataB.length - 1];
 			return latestB.price - latestA.price;
 		});
+
 		return sorted.slice(0, displayCount);
 	};
 
@@ -165,6 +174,7 @@ const CryptoLoom: React.FC = () => {
 						{isConnected ? "Connected" : "Disconnected"}
 					</div>
 				</div>
+
 				<div className="header-right">
 					<label htmlFor="displayCount" className="display-label">
 						Show:
@@ -178,10 +188,31 @@ const CryptoLoom: React.FC = () => {
 						>
 							{[5, 10, 50, 100].map((num) => (
 								<option key={num} value={num}>
-									{num} stocks
+									Top {num} stocks
 								</option>
 							))}
 						</select>
+					</div>
+
+					<div className="filter-group">
+						<button
+							className={filter === "all" ? "active" : ""}
+							onClick={() => setFilter("all")}
+						>
+							All
+						</button>
+						<button
+							className={filter === "profits" ? "active" : ""}
+							onClick={() => setFilter("profits")}
+						>
+							Profits
+						</button>
+						<button
+							className={filter === "loss" ? "active" : ""}
+							onClick={() => setFilter("loss")}
+						>
+							Loss
+						</button>
 					</div>
 
 					<button
